@@ -14,6 +14,7 @@ import android.os.Parcelable;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.javierc.timetracker.com.javierc.api.UpdateCheckin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,6 +81,9 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         array = msg.getRecords()[0].getPayload();
         String string = convert (array);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        //Check in here
+        // String status = new UpdateCheckin().execute().get();
 
         // set title
         alertDialogBuilder.setTitle("Checked in!");
