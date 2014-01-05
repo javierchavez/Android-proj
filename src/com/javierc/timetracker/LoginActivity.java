@@ -53,9 +53,15 @@ public class LoginActivity extends Activity {
                 SharedPreferences.Editor pedit = pref.edit();
                 String pwd = editTextPassword.getText().toString();
                 String usr = editTextUsername.getText().toString();
+
+                //- - - - - - - - - - - - - - - - - -
+                // if user does not auth do not save cred!
                 pedit.putString("username", usr);
                 pedit.putString("password", pwd);
                 pedit.commit();
+                //- - - - - - - - - - - - - - - - - -
+
+
                 String[] params = new String[]{usr,pwd};
                 String res = "";
                 try {
@@ -66,6 +72,7 @@ public class LoginActivity extends Activity {
                     e.printStackTrace();
                 }
                 if(!res.isEmpty()) { finish(); }
+                else {  }
             }
         };
     }
@@ -79,7 +86,7 @@ public class LoginActivity extends Activity {
             DefaultHttpClient httpclient = new DefaultHttpClient();
             try {
                 httpclient.getCredentialsProvider().setCredentials(
-                        new AuthScope(AuthScope.ANY_HOST, 443),
+                        new AuthScope("ttcheckin.eu01.aws.af.cm", 443),
                         new UsernamePasswordCredentials(strings[0], strings[1]));
 
                 HttpGet httpget = new HttpGet("ttcheckin.eu01.aws.af.cm");
