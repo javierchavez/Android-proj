@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class LoginActivity extends Activity {
     EditText editTextUsername, editTextPassword;
-    Button buttonSubmitt;
+    Button buttonSubmit;
     SharedPreferences pref;
 
 
@@ -38,11 +38,11 @@ public class LoginActivity extends Activity {
     }
 
     private void initViews() {
-        buttonSubmitt = (Button)findViewById(R.id.signinBtn);
+        buttonSubmit = (Button)findViewById(R.id.signinBtn);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         editTextUsername = (EditText) findViewById(R.id.editTextUsername);
 
-        buttonSubmitt.setOnClickListener(submitBtnListener());
+        buttonSubmit.setOnClickListener(submitBtnListener());
     }
 
     private View.OnClickListener submitBtnListener() {

@@ -3,18 +3,13 @@ package com.javierc.timetracker;
 import android.app.*;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.TextView;
-import com.javierc.timetracker.com.javierc.api.UpdateCheckin;
 
 import java.util.HashMap;
 import java.util.Map;
