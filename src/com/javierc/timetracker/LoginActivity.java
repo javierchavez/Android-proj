@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import com.javierc.timetracker.com.javierc.api.CheckCredentialsTask;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -57,7 +58,7 @@ public class LoginActivity extends Activity {
                 String[] params = new String[]{usr,pwd};
                 String res = "";
                 try {
-                     res = new CheckCredsTask().execute(params).get();
+                     res = new CheckCredentialsTask().execute(params).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -76,38 +77,5 @@ public class LoginActivity extends Activity {
         };
     }
 
-    private class CheckCredsTask extends AsyncTask<String,Object,String>{
 
-
-        @Override
-        protected String doInBackground(String[] strings) {
-            String returned = "";
-            DefaultHttpClient httpclient = new DefaultHttpClient();
-            try {
-                httpclient.getCredentialsProvider().setCredentials(
-                        new AuthScope("ttcheckin.eu01.aws.af.cm", 443),
-                        new UsernamePasswordCredentials(strings[0], strings[1]));
-
-                HttpGet httpget = new HttpGet("ttcheckin.eu01.aws.af.cm");
-
-                Log.d("req ", String.valueOf(httpget.getRequestLine()));
-                HttpResponse response = httpclient.execute(httpget);
-                HttpEntity entity = response.getEntity();
-
-                Log.d("status ", String.valueOf(response.getStatusLine()));
-                if (entity != null) {
-                    Log.d("len ", String.valueOf(entity.getContentLength()));
-                    System.out.println(EntityUtils.toString(entity));
-                    returned = EntityUtils.toString(entity);
-                }
-            } catch(Exception e){
-                e.printStackTrace();
-            }finally {
-                httpclient.getConnectionManager().shutdown();
-            }
-
-            return returned;
-        }
-
-    }
 }
