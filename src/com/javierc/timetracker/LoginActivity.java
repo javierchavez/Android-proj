@@ -61,6 +61,7 @@ public class LoginActivity extends Activity {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                // This causesed too many skipped frames!
                 if(!res.isEmpty()) {
                     pedit.putString("username", usr);
                     pedit.putString("password", pwd);

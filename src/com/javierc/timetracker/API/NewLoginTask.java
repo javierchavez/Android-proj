@@ -9,6 +9,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 /**
  * Created by javierAle on 1/5/14.
@@ -33,8 +34,8 @@ public class NewLoginTask extends AsyncTask<String,Object,String> {
             Log.d("status ", String.valueOf(response.getStatusLine()));
             if (entity != null) {
                 Log.d("len ", String.valueOf(entity.getContentLength()));
-                Log.d("entity ", EntityUtils.toString(entity));
-                returned = EntityUtils.toString(entity);
+                final JSONObject jsonObject = new JSONObject(EntityUtils.toString(entity));
+                returned = jsonObject.toString();
             }
         } catch(Exception e){
             e.printStackTrace();
