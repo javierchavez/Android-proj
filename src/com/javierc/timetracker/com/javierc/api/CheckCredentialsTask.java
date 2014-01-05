@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -21,14 +22,13 @@ public class CheckCredentialsTask extends AsyncTask<String,Object,String> {
         String returned = "";
         DefaultHttpClient httpclient = new DefaultHttpClient();
         try {
-            httpclient.getCredentialsProvider().setCredentials(
-                    new AuthScope(API.HOST.string(), 443),
+            httpclient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
                     new UsernamePasswordCredentials(strings[0], strings[1]));
 
-            HttpGet httpget = new HttpGet(API.HOST.string());
+            HttpPost httpPost = new HttpPost(API.LOGIN_URL.string());
 
-            Log.d("req ", String.valueOf(httpget.getRequestLine()));
-            HttpResponse response = httpclient.execute(httpget);
+            Log.d("req ", String.valueOf(httpPost.getRequestLine()));
+            HttpResponse response = httpclient.execute(httpPost);
             HttpEntity entity = response.getEntity();
 
             Log.d("status ", String.valueOf(response.getStatusLine()));
