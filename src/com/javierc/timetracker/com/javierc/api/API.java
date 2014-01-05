@@ -9,7 +9,14 @@ public enum API {
         public String string() {
             return "ttcheckin.eu01.aws.af.cm";
         }
-    };
+    },
+    LOGIN_URL() {
+        @Override
+        public String string() {
+            return HOST.string() + "api/login";
+        }
+    }
+    ;
 
 //    private String s = "";
 
