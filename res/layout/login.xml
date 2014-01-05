@@ -16,6 +16,7 @@
               android:layout_height="wrap_content"
               android:text="@string/sign_in_msg"
               android:textSize="22dp"
+              android:layout_marginLeft="10dp"
               android:textColor="@android:color/secondary_text_light"
 
             />
@@ -29,8 +30,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
+                android:layout_marginTop="20sp"
                 android:id="@+id/editTextUsername"/>
         <EditText
+                android:layout_marginTop="10sp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
@@ -38,6 +41,7 @@
                 android:id="@+id/editTextPassword"/>
 
         <Button android:layout_width="wrap_content"
+                android:layout_marginTop="20sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:id="@+id/signinBtn"

@@ -54,14 +54,6 @@ public class LoginActivity extends Activity {
                 String pwd = editTextPassword.getText().toString();
                 String usr = editTextUsername.getText().toString();
 
-                //- - - - - - - - - - - - - - - - - -
-                // if user does not auth do not save cred!
-                pedit.putString("username", usr);
-                pedit.putString("password", pwd);
-                pedit.commit();
-                //- - - - - - - - - - - - - - - - - -
-
-
                 String[] params = new String[]{usr,pwd};
                 String res = "";
                 try {
@@ -71,8 +63,15 @@ public class LoginActivity extends Activity {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-                if(!res.isEmpty()) { finish(); }
-                else {  }
+                if(!res.isEmpty()) {
+                    pedit.putString("username", usr);
+                    pedit.putString("password", pwd);
+                    pedit.commit();
+                    finish();
+                }
+                else {
+
+                }
             }
         };
     }
