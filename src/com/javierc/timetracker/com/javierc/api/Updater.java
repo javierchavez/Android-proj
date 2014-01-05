@@ -11,7 +11,7 @@ abstract class Updater extends AsyncTask{
     String u = "";
     String p = "";
 
-    public void setCredentials (Context c){
+    public void getCredentials(Context c){
         SharedPreferences pref = c.getSharedPreferences("lgen", Context.MODE_PRIVATE);
         u = pref.getString("username", "");
         p = pref.getString("password", "");

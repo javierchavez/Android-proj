@@ -2,20 +2,11 @@ package com.javierc.timetracker;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.javierc.timetracker.com.javierc.api.CheckCredentialsTask;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
+import com.javierc.timetracker.com.javierc.api.NewLoginTask;
 
 import java.util.concurrent.ExecutionException;
 
@@ -58,7 +49,7 @@ public class LoginActivity extends Activity {
                 String[] params = new String[]{usr,pwd};
                 String res = "";
                 try {
-                     res = new CheckCredentialsTask().execute(params).get();
+                     res = new NewLoginTask().execute(params).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

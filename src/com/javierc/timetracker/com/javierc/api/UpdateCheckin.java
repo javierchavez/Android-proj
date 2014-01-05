@@ -8,7 +8,7 @@ import android.content.Context;
 public class UpdateCheckIn extends Updater {
 
     UpdateCheckIn(Context context){
-        super.setCredentials(context);
+        super.getCredentials(context);
     }
 
     @Override

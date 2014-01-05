@@ -13,7 +13,7 @@ import org.apache.http.util.EntityUtils;
 /**
  * Created by javierAle on 1/5/14.
  */
-public class CheckCredentialsTask extends AsyncTask<String,Object,String> {
+public class NewLoginTask extends AsyncTask<String,Object,String> {
 
 
     @Override
