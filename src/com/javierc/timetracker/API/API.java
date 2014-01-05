@@ -1,4 +1,4 @@
-package com.javierc.timetracker.com.javierc.api;
+package com.javierc.timetracker.API;
 
 /**
  * Created by javierAle on 1/5/14.
@@ -26,7 +26,7 @@ public enum API {
 
 //    private String s = "";
 
-//    API(String string){
+//    com.javierc.timetracker.API(String string){
 //        s = string;
 //    }
 

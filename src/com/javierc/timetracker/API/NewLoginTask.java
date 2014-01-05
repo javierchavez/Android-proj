@@ -1,4 +1,4 @@
-package com.javierc.timetracker.com.javierc.api;
+package com.javierc.timetracker.API;
 
 import android.os.AsyncTask;
 import android.util.Log;

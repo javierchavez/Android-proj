@@ -9,7 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.javierc.timetracker.com.javierc.api.NewLoginTask;
+import com.javierc.timetracker.API.NewLoginTask;
 
 import java.util.concurrent.ExecutionException;
 

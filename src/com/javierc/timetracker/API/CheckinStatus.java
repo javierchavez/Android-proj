@@ -1,4 +1,4 @@
-package com.javierc.timetracker.com.javierc.api;
+package com.javierc.timetracker.API;
 
 import android.content.Context;
 
