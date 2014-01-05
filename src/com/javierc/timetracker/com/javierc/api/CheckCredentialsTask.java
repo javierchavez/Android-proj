@@ -22,10 +22,10 @@ public class CheckCredentialsTask extends AsyncTask<String,Object,String> {
         DefaultHttpClient httpclient = new DefaultHttpClient();
         try {
             httpclient.getCredentialsProvider().setCredentials(
-                    new AuthScope(API.HOST.toString(), 443),
+                    new AuthScope(API.HOST.string(), 443),
                     new UsernamePasswordCredentials(strings[0], strings[1]));
 
-            HttpGet httpget = new HttpGet(API.HOST.toString());
+            HttpGet httpget = new HttpGet(API.HOST.string());
 
             Log.d("req ", String.valueOf(httpget.getRequestLine()));
             HttpResponse response = httpclient.execute(httpget);

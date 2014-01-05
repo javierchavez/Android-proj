@@ -4,16 +4,21 @@ package com.javierc.timetracker.com.javierc.api;
  * Created by javierAle on 1/5/14.
  */
 public enum API {
-    HOST("ttcheckin.eu01.aws.af.cm") {
+    HOST() {
         @Override
-        public String toString() {
-            return string;
+        public String string() {
+            return "ttcheckin.eu01.aws.af.cm";
         }
     };
 
-    String string = "";
+//    private String s = "";
 
-    API(String s){
-        string = s;
-    }
+//    API(String string){
+//        s = string;
+//    }
+
+    API(){}
+
+
+    public abstract String string();
 }
