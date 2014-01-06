@@ -22,14 +22,21 @@
               android:textSize="22dp"
               android:layout_marginLeft="10dp"
               android:fontFamily="sans-serif-thin"
-              android:textColor="@android:color/secondary_text_light"
+              android:textColor="@android:color/holo_blue_dark"
             />
     <LinearLayout android:orientation="vertical"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginLeft="40sp"
-                  android:layout_marginRight="40sp"
+                  android:padding="25dp"
             >
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="15dp"
+                  android:gravity="center"
+                  android:id="@+id/respMsg"
+                  android:textColor="@android:color/holo_red_light"
+
+                />
         <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -57,13 +64,5 @@
                   android:layout_gravity="center"
                   android:layout_height="wrap_content"
             >
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:textSize="16dp"
-                  android:id="@+id/respMsg"
-                  android:layout_marginLeft="10dp"
-                  android:textColor="@android:color/secondary_text_light"
-
-                />
     </LinearLayout>
 </LinearLayout>
