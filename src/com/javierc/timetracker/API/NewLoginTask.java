@@ -30,7 +30,7 @@ public class NewLoginTask extends AsyncTask<String,Object,API> {
             // HttpEntity entity = response.getEntity();
 
             Log.d("status ", String.valueOf(response.getStatusLine()));
-            if (String.valueOf(response.getStatusLine()).indexOf(API.STATUS_OK.string()) != -1){
+            if (String.valueOf(response.getStatusLine()).contains(API.STATUS_OK.string())){
                 httpclient.getConnectionManager().shutdown();
                 return API.STATUS_OK;
             }
