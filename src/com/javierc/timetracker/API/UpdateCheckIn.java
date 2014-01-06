@@ -10,6 +10,7 @@ public class UpdateCheckIn extends Updater<String,Object,String> {
     public UpdateCheckIn(Context context){
         this.context = context;
         super.setCredentials();
+        showDialog();
     }
 
     @Override
@@ -18,5 +19,5 @@ public class UpdateCheckIn extends Updater<String,Object,String> {
     }
 
     @Override
-    protected void setContext(Context c) { this.context = c; }
+    public void setContext(Context c) { this.context = c; }
 }

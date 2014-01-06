@@ -14,7 +14,7 @@ abstract class Updater<Params, Progress, Result> extends AsyncTask<Params, Progr
     protected Context context;
     protected ProgressDialog progressDialog;
 
-    protected abstract void setContext(Context c);
+    public abstract void setContext(Context c);
 
 
     protected void setCredentials(){

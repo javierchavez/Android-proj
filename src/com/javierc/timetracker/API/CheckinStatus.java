@@ -19,7 +19,7 @@ public class CheckinStatus extends Updater{
     }
 
     @Override
-    protected void setContext(Context c) {
+    public void setContext(Context c) {
         this.context = c;
     }
 }
