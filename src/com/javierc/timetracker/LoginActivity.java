@@ -34,7 +34,7 @@ public class LoginActivity extends Activity {
     }
 
     private void initViews() {
-//        final TextView tv = ((TextView) findViewById(R.id.respMsg));
+
         buttonSubmit = (Button)findViewById(R.id.signinBtn);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         editTextUsername = (EditText) findViewById(R.id.editTextUsername);

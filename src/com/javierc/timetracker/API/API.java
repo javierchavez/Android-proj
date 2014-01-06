@@ -23,6 +23,12 @@ public enum API {
             return HOST.string() + "/api/login";
         }
     },
+    CHECKIN_URL(){
+        @Override
+        public String string() {
+            return HTTP.string() + "/api/log";
+        }
+    },
     STATUS_OK(200){
         @Override
         public String string() {
