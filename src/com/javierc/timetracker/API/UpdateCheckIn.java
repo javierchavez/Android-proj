@@ -5,14 +5,14 @@ import android.content.Context;
 /**
  * Created by javierAle on 1/5/14.
  */
-public class UpdateCheckIn extends Updater {
+public class UpdateCheckIn extends Updater<String,Object,String> {
 
     UpdateCheckIn(Context context){
         super.getCredentials(context);
     }
 
     @Override
-    protected Object doInBackground(Object[] objects) {
+    protected String doInBackground(String[] strings) {
         return null;
     }
 }
