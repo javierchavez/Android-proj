@@ -21,7 +21,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
     String string = "";
     SharedPreferences pref;
     ActionBar actionBar;
-    String[] dropdownValues = new String[] {"Select", "Check-in History","Manage Sheet", "NFC"};
+    String[] dropdownValues = new String[] {"Select", "Check-in History","Manage Sheet", "NFC", "Logout"};
     Map<Integer, Intent> map = new HashMap<Integer, Intent>();
     Context context;
 
@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         map.put(1, new Intent(MainActivity.this, CheckinsListViewActivity.class));
         map.put(2, new Intent(MainActivity.this, ManagePanelActivity.class));
         map.put(3, new Intent(MainActivity.this, NFCActivity.class));
-
+        map.put(4, new Intent(MainActivity.this, LoginActivity.class).putExtra("logout","true"));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 

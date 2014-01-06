@@ -3,6 +3,7 @@ package com.javierc.timetracker;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -30,10 +31,13 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        Bundle extras = getIntent().getExtras();
 
+        if (extras != null ) { logoutUser(extras); }
+        setContentView(R.layout.login);
         initViews();
         context = this;
+
     }
 
     private void initViews() {
@@ -93,5 +97,16 @@ public class LoginActivity extends Activity {
                 }
             }
         };
+    }
+
+    private void logoutUser(Bundle extras){
+        String logout = extras.getString("logout");
+        if (logout != null && logout.contains("true")){
+            pref = getSharedPreferences("lgen", MODE_PRIVATE);
+            SharedPreferences.Editor pedit = pref.edit();
+            pedit.putString("username", "");
+            pedit.putString("password", "");
+            pedit.commit();
+        }
     }
 }
