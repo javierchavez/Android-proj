@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.javierc.timetracker.API.API;
 import com.javierc.timetracker.API.NewLoginTask;
 
 import java.util.concurrent.ExecutionException;
@@ -53,7 +54,7 @@ public class LoginActivity extends Activity {
                 String usr = editTextUsername.getText().toString();
 
                 String[] params = new String[]{usr,pwd};
-                String res = "";
+                API res = API.STATUS_AUTH_FAIL;
                 try {
                      res = new NewLoginTask().execute(params).get();
                 } catch (InterruptedException e) {
@@ -62,7 +63,7 @@ public class LoginActivity extends Activity {
                     e.printStackTrace();
                 }
                 // This causesed too many skipped frames!
-                if(!res.isEmpty()) {
+                if(res == API.STATUS_OK) {
                     pedit.putString("username", usr);
                     pedit.putString("password", pwd);
                     pedit.commit();

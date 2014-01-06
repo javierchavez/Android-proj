@@ -28,6 +28,12 @@ public enum API {
         public String string() {
             return String.valueOf(value());
         }
+    },
+    STATUS_AUTH_FAIL(401){
+        @Override
+        public String string() {
+            return String.valueOf(value());
+        }
     }
     ;
 

@@ -4,25 +4,20 @@ import android.os.AsyncTask;
 import android.util.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
 
 /**
  * Created by javierAle on 1/5/14.
  */
-public class NewLoginTask extends AsyncTask<String,Object,String> {
+public class NewLoginTask extends AsyncTask<String,Object,API> {
 
 
     @Override
-    protected String doInBackground(String[] strings) {
+    protected API doInBackground(String[] strings) {
         String returned = "";
         DefaultHttpClient httpclient = new DefaultHttpClient();
         try {
@@ -33,12 +28,12 @@ public class NewLoginTask extends AsyncTask<String,Object,String> {
 
             Log.d("req ", String.valueOf(httpPost.getRequestLine()));
             HttpResponse response = httpclient.execute(httpPost);
-            HttpEntity entity = response.getEntity();
+            // HttpEntity entity = response.getEntity();
 
             Log.d("status ", String.valueOf(response.getStatusLine()));
             if (String.valueOf(response.getStatusLine()).indexOf(API.STATUS_OK.string()) != -1){
                 httpclient.getConnectionManager().shutdown();
-                return "OK";
+                return API.STATUS_OK;
             }
 //            if (entity != null) {
 //                Log.d("len ", String.valueOf(entity.getContentLength()));
@@ -51,7 +46,7 @@ public class NewLoginTask extends AsyncTask<String,Object,String> {
             httpclient.getConnectionManager().shutdown();
         }
 
-        return returned;
+        return API.STATUS_AUTH_FAIL;
     }
 
 }
