@@ -34,7 +34,7 @@ abstract class Updater<Params, Progress, Result> extends AsyncTask<Params, Progr
 
     @Override
     protected void onPostExecute(Result result) {
-        progressDialog.dismiss();
+        if (progressDialog.isShowing()){ progressDialog.dismiss(); }
         super.onPostExecute(result);
     }
 }
