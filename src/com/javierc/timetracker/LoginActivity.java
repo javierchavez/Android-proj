@@ -1,6 +1,7 @@
 package com.javierc.timetracker;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class LoginActivity extends Activity {
     EditText editTextUsername, editTextPassword;
     Button buttonSubmit;
     SharedPreferences pref;
+    Context context;
 
 
     @Override
@@ -31,6 +33,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.login);
 
         initViews();
+        context = this;
     }
 
     private void initViews() {
@@ -59,6 +62,7 @@ public class LoginActivity extends Activity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 
@@ -70,7 +74,7 @@ public class LoginActivity extends Activity {
                 String[] params = new String[]{usr,pwd};
                 API res = API.STATUS_AUTH_FAIL;
                 try {
-                     res = new NewLoginTask().execute(params).get();
+                     res = new NewLoginTask(context).execute(params).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

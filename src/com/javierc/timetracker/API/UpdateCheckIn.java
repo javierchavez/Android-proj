@@ -8,11 +8,15 @@ import android.content.Context;
 public class UpdateCheckIn extends Updater<String,Object,String> {
 
     public UpdateCheckIn(Context context){
-        super.getCredentials(context);
+        this.context = context;
+        super.setCredentials();
     }
 
     @Override
     protected String doInBackground(String[] strings) {
         return null;
     }
+
+    @Override
+    protected void setContext(Context c) { this.context = c; }
 }

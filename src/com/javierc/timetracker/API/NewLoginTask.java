@@ -1,5 +1,7 @@
 package com.javierc.timetracker.API;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import org.apache.http.HttpResponse;
@@ -13,10 +15,18 @@ import org.apache.http.impl.client.DefaultHttpClient;
  * Created by javierAle on 1/5/14.
  */
 public class NewLoginTask extends AsyncTask<String,Object,API> {
+    ProgressDialog progressDialog;
 
+    public NewLoginTask(Context context) {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Logging in");
+        progressDialog.show();
+    }
 
     @Override
     protected API doInBackground(String[] strings) {
+
+
         String returned = "";
         DefaultHttpClient httpclient = new DefaultHttpClient();
         try {
@@ -48,4 +58,9 @@ public class NewLoginTask extends AsyncTask<String,Object,API> {
         return API.STATUS_AUTH_FAIL;
     }
 
+    @Override
+    protected void onPostExecute(API api) {
+        progressDialog.dismiss();
+        super.onPostExecute(api);
+    }
 }

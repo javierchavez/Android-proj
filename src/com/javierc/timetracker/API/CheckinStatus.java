@@ -8,12 +8,18 @@ import android.content.Context;
 public class CheckinStatus extends Updater{
 
     public CheckinStatus(Context context){
-        super.getCredentials(context);
+        this.context = context;
+        super.setCredentials();
     }
 
 
     @Override
     protected Object doInBackground(Object[] objects) {
         return null;
+    }
+
+    @Override
+    protected void setContext(Context c) {
+        this.context = c;
     }
 }
