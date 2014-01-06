@@ -1,6 +1,7 @@
 package com.javierc.timetracker;
 
 import android.app.*;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +23,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
     ActionBar actionBar;
     String[] dropdownValues = new String[] {"Select", "Check-in History","Manage Sheet", "NFC"};
     Map<Integer, Intent> map = new HashMap<Integer, Intent>();
+    Context context;
 
 //    private boolean mResumed = false;
 //    EditText mNote;
@@ -49,6 +51,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
             // intent.hasExtra("")
             startActivity(intent);
         }
+        context = this;
         map.put(1, new Intent(MainActivity.this, CheckinsListViewActivity.class));
         map.put(2, new Intent(MainActivity.this, ManagePanelActivity.class));
         map.put(3, new Intent(MainActivity.this, NFCActivity.class));
@@ -85,10 +88,10 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         String string = convert (array);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        String status;
+        String status="";
         //Check in here
         try {
-             status = new UpdateCheckIn(this).execute("").get();
+             status = new UpdateCheckIn(context).execute("").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -96,7 +99,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         }
 
         // set title
-        alertDialogBuilder.setTitle("Checked in!");
+        alertDialogBuilder.setTitle(status);
 
         // set dialog message
         alertDialogBuilder

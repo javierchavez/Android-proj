@@ -12,7 +12,7 @@ abstract class Updater<Params, Progress, Result> extends AsyncTask<Params, Progr
     protected String u = "";
     protected String p = "";
     protected Context context;
-    protected ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
     public abstract void setContext(Context c);
 
@@ -23,10 +23,13 @@ abstract class Updater<Params, Progress, Result> extends AsyncTask<Params, Progr
         p = pref.getString("password", "");
     }
 
-    protected void showDialog(){
+    protected void showProgressDialog(){
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Logging in");
         progressDialog.show();
+    }
+    protected void dissmisProgressDialog(){
+        progressDialog.dismiss();
     }
 
     @Override
