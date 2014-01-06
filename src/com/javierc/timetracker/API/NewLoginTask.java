@@ -2,7 +2,6 @@ package com.javierc.timetracker.API;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
