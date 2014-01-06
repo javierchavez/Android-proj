@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends Activity implements ActionBar.OnNavigationListener {
     String string = "";
-    SharedPreferences pref;
+
     ActionBar actionBar;
     String[] dropdownValues = new String[] {"Select", "Check-in History","Manage Sheet", "NFC", "Logout"};
     Map<Integer, Intent> map = new HashMap<Integer, Intent>();
@@ -40,18 +40,12 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        // check to see if user has tried to signin
-        pref = getSharedPreferences("lgen", MODE_PRIVATE);
-        String u = pref.getString("username", "");
-        String p = pref.getString("password", "");
-
         // TODO add check for changed password
-        if(u.isEmpty() || p.isEmpty()){
+        if(!new LoggedIn().isLoggedIn()){
             Intent intent = new Intent(this,LoginActivity.class);
-            // intent.hasExtra("")
             startActivity(intent);
         }
-        context = this;
+
         map.put(1, new Intent(MainActivity.this, CheckinsListViewActivity.class));
         map.put(2, new Intent(MainActivity.this, ManagePanelActivity.class));
         map.put(3, new Intent(MainActivity.this, NFCActivity.class));
@@ -59,8 +53,9 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        setAdapt();
+        context = this;
 
+        setAdapt();
         Intent intent = getIntent();
         resolveIntent (intent);
 
@@ -69,8 +64,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
     private void resolveIntent(Intent intent) {
         String action = intent.getAction();
-        if ((NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) ||
-                (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)))
+        if (((NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) ||
+                (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action))) && new LoggedIn().isLoggedIn())
         {
             Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
@@ -168,4 +163,23 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         super.onResume();
         actionBar.setSelectedNavigationItem(0);
     }
+
+    public class LoggedIn {
+        private boolean isLoggedIn = false;
+        private SharedPreferences pref;
+        public LoggedIn(){
+            pref = getSharedPreferences("lgen", context.MODE_PRIVATE);
+            String u = pref.getString("username", "");
+            String p = pref.getString("password", "");
+            if (u.isEmpty() || p.isEmpty()){
+                isLoggedIn = false;
+            } else{
+                isLoggedIn = true;
+            }
+        }
+        public boolean isLoggedIn() {
+            return isLoggedIn;
+        }
+    }
+
 }
