@@ -4,12 +4,16 @@ import android.os.AsyncTask;
 import android.util.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
 
 /**
  * Created by javierAle on 1/5/14.
@@ -32,11 +36,15 @@ public class NewLoginTask extends AsyncTask<String,Object,String> {
             HttpEntity entity = response.getEntity();
 
             Log.d("status ", String.valueOf(response.getStatusLine()));
-            if (entity != null) {
-                Log.d("len ", String.valueOf(entity.getContentLength()));
-                final JSONObject jsonObject = new JSONObject(EntityUtils.toString(entity));
-                returned = jsonObject.toString();
+            if (String.valueOf(response.getStatusLine()).indexOf(API.STATUS_OK.string()) != -1){
+                httpclient.getConnectionManager().shutdown();
+                return "OK";
             }
+//            if (entity != null) {
+//                Log.d("len ", String.valueOf(entity.getContentLength()));
+//                final JSONObject jsonObject = new JSONObject(EntityUtils.toString(entity));
+//                returned = jsonObject.toString();
+//            }
         } catch(Exception e){
             e.printStackTrace();
         }finally {
