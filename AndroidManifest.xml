@@ -22,9 +22,9 @@
                 <data android:mimeType="text/checkin" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".CheckinsListViewActivity"></activity>
-        <activity android:name=".ManagePanelActivity"></activity>
-        <activity android:name=".NFCActivity"></activity>
+        <activity android:name=".LoginActivity" android:label="Login"/>
+        <activity android:name=".CheckinsListViewActivity" android:label="Check in History"/>
+        <activity android:name=".ManagePanelActivity" android:label="Time Sheets"/>
+        <activity android:name=".NFCActivity" android:label="Manage NFC Tags"/>
     </application>
 </manifest>
