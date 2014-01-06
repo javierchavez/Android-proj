@@ -10,15 +10,19 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.ArrayAdapter;
+import com.javierc.timetracker.API.UpdateCheckIn;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends Activity implements ActionBar.OnNavigationListener {
     String string = "";
     SharedPreferences pref;
     ActionBar actionBar;
     String[] dropdownValues = new String[] {"Select", "Check-in History","Manage Sheet", "NFC"};
+    Map<Integer, Intent> map = new HashMap<Integer, Intent>();
+
 //    private boolean mResumed = false;
 //    EditText mNote;
 //
@@ -45,6 +49,10 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
             // intent.hasExtra("")
             startActivity(intent);
         }
+        map.put(1, new Intent(MainActivity.this, CheckinsListViewActivity.class));
+        map.put(2, new Intent(MainActivity.this, ManagePanelActivity.class));
+        map.put(3, new Intent(MainActivity.this, NFCActivity.class));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -77,8 +85,15 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         String string = convert (array);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
+        String status;
         //Check in here
-        // String status = new UpdateCheckin().execute().get();
+        try {
+             status = new UpdateCheckIn(this).execute("").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         // set title
         alertDialogBuilder.setTitle("Checked in!");
@@ -110,13 +125,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
     @Override
     public boolean onNavigationItemSelected(int i, long l) {
-
-        Map<Integer, Intent> map = new HashMap<Integer, Intent>();
-
-        map.put(1, new Intent(MainActivity.this, CheckinsListViewActivity.class));
-        map.put(2, new Intent(MainActivity.this, ManagePanelActivity.class));
-        map.put(3, new Intent(MainActivity.this, NFCActivity.class));
-
         if(i != 0) { startActivity(map.get(i)); }
         return false;
     }

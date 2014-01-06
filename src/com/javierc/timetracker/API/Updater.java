@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 /**
  * Created by javierAle on 1/5/14.
  */
-abstract class Updater<T,P,R> extends AsyncTask<T,P,R>{
+abstract class Updater<Params, Progress, Result> extends AsyncTask<Params, Progress, Result>{
     String u = "";
     String p = "";
 

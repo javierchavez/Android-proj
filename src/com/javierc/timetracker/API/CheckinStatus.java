@@ -7,7 +7,7 @@ import android.content.Context;
  */
 public class CheckinStatus extends Updater{
 
-    CheckinStatus(Context context){
+    public CheckinStatus(Context context){
         super.getCredentials(context);
     }
 
