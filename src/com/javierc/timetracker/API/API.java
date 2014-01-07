@@ -29,6 +29,12 @@ public enum API {
             return HOST.string() + "/api/log";
         }
     },
+    CHECKIN_STATUS_URL(){
+        @Override
+        public String string() {
+            return CHECKIN_URL.string() + "/status";
+        }
+    },
     STATUS_OK(200){
         @Override
         public String string() {
