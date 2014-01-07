@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -17,7 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.javierc.timetracker.API.API;
-import com.javierc.timetracker.API.CheckinStatus;
+import com.javierc.timetracker.API.MainCheckinStatus;
 import com.javierc.timetracker.API.UpdateCheckIn;
 import com.javierc.timetracker.API.Updater;
 import org.apache.http.HttpEntity;
@@ -39,7 +38,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
     ActionBar actionBar;
     String[] dropdownValues = new String[] {"Select", "Check-in History","Manage Sheet", "NFC", "Logout"};
     Map<Integer, Intent> map = new HashMap<Integer, Intent>();
-    Context context;
 
 
 //    private boolean mResumed = false;
@@ -69,8 +67,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         map.put(4, new Intent(MainActivity.this, LoginActivity.class).putExtra("logout","true"));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
-        context = this;
 
         setAdapt();
         Intent intent = getIntent();
@@ -102,7 +98,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         String status="";
         //Check in here
         try {
-             status = new UpdateCheckIn(context).execute("").get();
+             status = new UpdateCheckIn(this).execute("").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -183,7 +179,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         } else {
             setContentView(R.layout.main);
             try {
-                new ThisCheckinStatus(context).execute().get();
+                new MainCheckinStatus(this).execute().get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -199,7 +195,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         private boolean isLoggedIn = false;
         private SharedPreferences pref;
         public LoggedIn(){
-            pref = getSharedPreferences("lgen", context.MODE_PRIVATE);
+            pref = getSharedPreferences("lgen", Context.MODE_PRIVATE);
             String u = pref.getString("username", "");
             String p = pref.getString("password", "");
             if (u.isEmpty() || p.isEmpty()){
@@ -213,63 +209,4 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         }
     }
 
-    public class ThisCheckinStatus extends Updater<Object, Object, String>{
-        String s = "";
-        ThisCheckinStatus (Context c){
-            this.context = c;
-            super.setCredentials();
-        }
-
-        @Override
-        protected String doInBackground(Object[] tv) {
-            DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
-            try {
-                defaultHttpClient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-                        new UsernamePasswordCredentials(this.getU(), this.getP()));
-
-                HttpGet httpGet = new HttpGet(API.CHECKIN_STATUS_URL.string());
-
-                Log.d("req ", String.valueOf(httpGet.getRequestLine()));
-                HttpResponse response = defaultHttpClient.execute(httpGet);
-                HttpEntity entity = response.getEntity();
-
-                Log.d("status ", String.valueOf(response.getStatusLine()));
-                if (String.valueOf(response.getStatusLine()).contains(API.STATUS_OK.string())){
-
-                    final JSONObject jsonObject = new JSONObject(EntityUtils.toString(entity));
-                    defaultHttpClient.getConnectionManager().shutdown();
-                    Log.d("ob ", jsonObject.toString());
-                    s = jsonObject.toString();
-                    return s;
-                }
-
-            } catch(Exception e){
-                e.printStackTrace();
-            }finally {
-                defaultHttpClient.getConnectionManager().shutdown();
-            }
-
-            return s;
-        }
-
-        @Override
-        public void setContext(Context c) {
-            this.context = c;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-
-                LinearLayout ll = (LinearLayout) findViewById(R.id.load_ll);
-                ll.setVisibility(View.GONE);
-
-                LinearLayout ls = (LinearLayout) findViewById(R.id.listLayout);
-                ls.setVisibility(View.VISIBLE);
-                TextView tv = (TextView) findViewById(R.id.statusTV);
-                tv.setText(s);
-
-        }
-    }
 }
