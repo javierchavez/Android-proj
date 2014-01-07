@@ -2,7 +2,10 @@ package com.javierc.timetracker.API;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.ProgressBar;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -14,16 +17,20 @@ import org.apache.http.impl.client.DefaultHttpClient;
  * Created by javierAle on 1/5/14.
  */
 public class NewLoginTask extends AsyncTask<String,Object,API> {
-    ProgressDialog progressDialog;
+
+
+    private final Context context;
+    SharedPreferences pref;
 
     public NewLoginTask(Context context) {
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Logging in");
-        progressDialog.show();
+        this.context = context;
     }
 
     @Override
     protected API doInBackground(String[] strings) {
+
+        pref = context.getSharedPreferences("lgen", Context.MODE_PRIVATE);
+        SharedPreferences.Editor pedit = pref.edit();
 
         DefaultHttpClient httpclient = new DefaultHttpClient();
         try {
@@ -39,6 +46,10 @@ public class NewLoginTask extends AsyncTask<String,Object,API> {
             // Log.d("status ", String.valueOf(response.getStatusLine()));
             if (String.valueOf(response.getStatusLine()).contains(API.STATUS_OK.string())){
                 httpclient.getConnectionManager().shutdown();
+                pedit.putString("username", strings[0]);
+                pedit.putString("password", strings[1]);
+                pedit.commit();
+
                 return API.STATUS_OK;
             }
 
@@ -53,7 +64,6 @@ public class NewLoginTask extends AsyncTask<String,Object,API> {
 
     @Override
     protected void onPostExecute(API api) {
-        progressDialog.dismiss();
         super.onPostExecute(api);
     }
 }

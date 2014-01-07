@@ -11,6 +11,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.javierc.timetracker.API.API;
 import com.javierc.timetracker.API.NewLoginTask;
@@ -24,36 +25,39 @@ import java.util.concurrent.ExecutionException;
 public class LoginActivity extends Activity {
     EditText editTextUsername, editTextPassword;
     Button buttonSubmit;
-    SharedPreferences pref;
+    ///SharedPreferences pref;
     Context context;
-
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
 
-        if (extras != null ) { logoutUser(extras); }
-        setContentView(R.layout.login);
         initViews();
-        context = this;
 
+        context = this;
+        if (extras != null ) { logoutUser(extras); }
     }
 
     private void initViews() {
+        setContentView(R.layout.login);
 
+        tv = (TextView)findViewById(R.id.respMsg);
         buttonSubmit = (Button)findViewById(R.id.signinBtn);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         editTextUsername = (EditText) findViewById(R.id.editTextUsername);
-        editTextPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editTextPassword.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onFocusChange(View view, boolean b) {
+            public void onClick(View view) {
                 ((TextView) findViewById(R.id.respMsg)).setText("");
             }
         });
-        editTextUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editTextUsername.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onFocusChange(View view, boolean b) {
+            public void onClick(View view) {
                 ((TextView) findViewById(R.id.respMsg)).setText("");
             }
         });
@@ -67,11 +71,10 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
 
+                tv.setText("Verifying...");
                 InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 
-                pref = getSharedPreferences("lgen", MODE_PRIVATE);
-                SharedPreferences.Editor pedit = pref.edit();
                 String pwd = editTextPassword.getText().toString();
                 String usr = editTextUsername.getText().toString();
 
@@ -86,13 +89,10 @@ public class LoginActivity extends Activity {
                 }
                 // This causesed too many skipped frames!
                 if(res == API.STATUS_OK) {
-                    pedit.putString("username", usr);
-                    pedit.putString("password", pwd);
-                    pedit.commit();
+                    tv.setText("Great!");
                     finish();
                 }
                 else {
-                    TextView tv = (TextView)findViewById(R.id.respMsg);
                     tv.setText("Check Username or Password");
                 }
             }
@@ -102,11 +102,12 @@ public class LoginActivity extends Activity {
     private void logoutUser(Bundle extras){
         String logout = extras.getString("logout");
         if (logout != null && logout.contains("true")){
-            pref = getSharedPreferences("lgen", MODE_PRIVATE);
+            SharedPreferences pref = getSharedPreferences("lgen", MODE_PRIVATE);
             SharedPreferences.Editor pedit = pref.edit();
             pedit.putString("username", "");
             pedit.putString("password", "");
             pedit.commit();
+            tv.setText("Logged out.");
         }
     }
 }
