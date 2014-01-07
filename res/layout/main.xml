@@ -15,7 +15,7 @@
             android:id="@+id/load_ll">
         <ProgressBar
                 android:id="@+id/progressBar"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom ="20dp" />
@@ -23,11 +23,7 @@
                 android:id="@+id/title"
                 android:textSize="20sp"
                 android:gravity="center"
-                android:padding="2dp"
                 android:textColor="@android:color/holo_blue_dark"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="0.6"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Loading..." />
