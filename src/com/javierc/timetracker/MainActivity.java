@@ -8,10 +8,26 @@ import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import com.javierc.timetracker.API.API;
+import com.javierc.timetracker.API.CheckinStatus;
 import com.javierc.timetracker.API.UpdateCheckIn;
+import com.javierc.timetracker.API.Updater;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +40,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
     String[] dropdownValues = new String[] {"Select", "Check-in History","Manage Sheet", "NFC", "Logout"};
     Map<Integer, Intent> map = new HashMap<Integer, Intent>();
     Context context;
+
 
 //    private boolean mResumed = false;
 //    EditText mNote;
@@ -58,6 +75,15 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         setAdapt();
         Intent intent = getIntent();
         resolveIntent (intent);
+
+
+        try {
+            new ThisCheckinStatus(context).execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -188,4 +214,63 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         }
     }
 
+    public class ThisCheckinStatus extends Updater<Object, Object, String>{
+        String s = "";
+        ThisCheckinStatus (Context c){
+            this.context = c;
+            super.setCredentials();
+        }
+
+        @Override
+        protected String doInBackground(Object[] tv) {
+            DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
+            try {
+                defaultHttpClient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
+                        new UsernamePasswordCredentials(this.getU(), this.getP()));
+
+                HttpGet httpGet = new HttpGet(API.CHECKIN_STATUS_URL.string());
+
+                Log.d("req ", String.valueOf(httpGet.getRequestLine()));
+                HttpResponse response = defaultHttpClient.execute(httpGet);
+                HttpEntity entity = response.getEntity();
+
+                Log.d("status ", String.valueOf(response.getStatusLine()));
+                if (String.valueOf(response.getStatusLine()).contains(API.STATUS_OK.string())){
+
+                    final JSONObject jsonObject = new JSONObject(EntityUtils.toString(entity));
+                    defaultHttpClient.getConnectionManager().shutdown();
+                    Log.d("ob ", jsonObject.toString());
+                    s = jsonObject.toString();
+                    return s;
+                }
+
+            } catch(Exception e){
+                e.printStackTrace();
+            }finally {
+                defaultHttpClient.getConnectionManager().shutdown();
+            }
+
+            return s;
+        }
+
+        @Override
+        public void setContext(Context c) {
+            this.context = c;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+
+                LinearLayout ll = (LinearLayout) findViewById(R.id.load_ll);
+                ll.setVisibility(View.GONE);
+
+                LinearLayout ls = (LinearLayout) findViewById(R.id.listLayout);
+                ls.setVisibility(View.VISIBLE);
+                TextView tv = (TextView) findViewById(R.id.statusTV);
+                tv.setText(s);
+
+        }
+    }
 }

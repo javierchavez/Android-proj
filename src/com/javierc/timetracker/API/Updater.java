@@ -8,11 +8,11 @@ import android.os.AsyncTask;
 /**
  * Created by javierAle on 1/5/14.
  */
-abstract class Updater<Params, Progress, Result> extends AsyncTask<Params, Progress, Result>{
-    protected String u = "";
-    protected String p = "";
+public abstract class Updater<Params, Progress, Result> extends AsyncTask<Params, Progress, Result>{
+    private String u = "";
+    private String p = "";
     protected Context context;
-    private ProgressDialog progressDialog;
+    //private ProgressDialog progressDialog;
 
     public abstract void setContext(Context c);
 
@@ -24,17 +24,25 @@ abstract class Updater<Params, Progress, Result> extends AsyncTask<Params, Progr
     }
 
     protected void showProgressDialog(){
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Logging in");
-        progressDialog.show();
+//        progressDialog = new ProgressDialog(context);
+//        progressDialog.setMessage("Logging in");
+//        progressDialog.show();
     }
     protected void dissmisProgressDialog(){
-        progressDialog.dismiss();
+//        progressDialog.dismiss();
     }
 
     @Override
     protected void onPostExecute(Result result) {
-        if (progressDialog.isShowing()){ progressDialog.dismiss(); }
+//        if (progressDialog.isShowing()){ progressDialog.dismiss(); }
         super.onPostExecute(result);
+    }
+
+    public String getP() {
+        return p;
+    }
+
+    public String getU() {
+        return u;
     }
 }

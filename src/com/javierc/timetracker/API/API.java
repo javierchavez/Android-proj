@@ -14,7 +14,7 @@ public enum API {
     HOST() {
         @Override
         public String string() {
-            return HTTP.string() + "ttcheckin.eu01.aws.af.cm";
+            return HTTP.string() + "timetracker.aws.af.cm";
         }
     },
     LOGIN_URL() {

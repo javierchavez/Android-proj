@@ -28,7 +28,7 @@ public class UpdateCheckIn extends Updater<String,Object,String> {
         DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
         try {
             defaultHttpClient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-                    new UsernamePasswordCredentials(this.u, this.p));
+                    new UsernamePasswordCredentials(this.getU(), this.getP()));
 
             HttpPost httpPost = new HttpPost(API.CHECKIN_URL.string());
 
