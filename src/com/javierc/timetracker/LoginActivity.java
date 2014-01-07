@@ -87,13 +87,15 @@ public class LoginActivity extends Activity {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-                // This causesed too many skipped frames!
+
                 if(res == API.STATUS_OK) {
                     tv.setText("Great!");
                     finish();
                 }
                 else {
                     tv.setText("Check Username or Password");
+                    editTextPassword.setText("");
+                    editTextUsername.setText("");
                 }
             }
         };
