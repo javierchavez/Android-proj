@@ -76,16 +76,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
         Intent intent = getIntent();
         resolveIntent (intent);
 
-
-        try {
-            new ThisCheckinStatus(context).execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     private void resolveIntent(Intent intent) {
@@ -192,7 +182,16 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
             setContentView(R.layout.none);
         } else {
             setContentView(R.layout.main);
+            try {
+                new ThisCheckinStatus(context).execute().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         }
+
+
 
     }
 
