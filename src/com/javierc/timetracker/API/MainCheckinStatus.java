@@ -1,6 +1,5 @@
 package com.javierc.timetracker.API;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
@@ -22,17 +20,19 @@ import org.json.JSONObject;
  * Created by javierAle on 1/5/14.
  */
 public class MainCheckinStatus extends Updater<Object, Object, String>{
-    String s = "";
+    private String s = "Error";
     private MainActivity activity;
-
+    private TextView textView;
     public MainCheckinStatus(MainActivity a){
         activity = a;
+        textView = (TextView) activity.findViewById(R.id.statusTV);
+
         this.context = a.getApplicationContext();
         super.setCredentials();
     }
 
     @Override
-    protected String doInBackground(Object[] tv) {
+    protected String doInBackground(Object[] objects) {
         DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
         try {
             defaultHttpClient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
@@ -51,6 +51,13 @@ public class MainCheckinStatus extends Updater<Object, Object, String>{
                 defaultHttpClient.getConnectionManager().shutdown();
                 Log.d("ob ", jsonObject.toString());
                 s = jsonObject.toString();
+
+
+
+                LinearLayout ls = (LinearLayout) activity.findViewById(R.id.listLayout);
+                ls.setVisibility(View.VISIBLE);
+
+                textView.setText(s);
                 return s;
             }
 
@@ -70,16 +77,9 @@ public class MainCheckinStatus extends Updater<Object, Object, String>{
 
     @Override
     protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-
-
+        textView.setText(s);
         LinearLayout ll = (LinearLayout) activity.findViewById(R.id.load_ll);
         ll.setVisibility(View.GONE);
-
-        LinearLayout ls = (LinearLayout) activity.findViewById(R.id.listLayout);
-        ls.setVisibility(View.VISIBLE);
-        TextView tv = (TextView) activity.findViewById(R.id.statusTV);
-        tv.setText(s);
-
+        super.onPostExecute(s);
     }
 }

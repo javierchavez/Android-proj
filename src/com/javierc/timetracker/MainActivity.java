@@ -33,11 +33,11 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends Activity implements ActionBar.OnNavigationListener {
-    String string = "";
+    private String string = "";
 
-    ActionBar actionBar;
-    String[] dropdownValues = new String[] {"Select", "Check-in History","Manage Sheet", "NFC", "Logout"};
-    Map<Integer, Intent> map = new HashMap<Integer, Intent>();
+    private ActionBar actionBar;
+    private String[] dropdownValues = new String[] {"Select", "Check-in History","Manage Sheet", "NFC", "Logout"};
+    private Map<Integer, Intent> map = new HashMap<Integer, Intent>();
 
 
 //    private boolean mResumed = false;
