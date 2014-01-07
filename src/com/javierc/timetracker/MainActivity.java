@@ -162,6 +162,12 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
     protected void onResume() {
         super.onResume();
         actionBar.setSelectedNavigationItem(0);
+        if(!new LoggedIn().isLoggedIn()){
+            setContentView(R.layout.none);
+        } else {
+            setContentView(R.layout.main);
+        }
+
     }
 
     public class LoggedIn {
