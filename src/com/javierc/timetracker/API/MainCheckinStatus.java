@@ -56,6 +56,11 @@ public class MainCheckinStatus extends Updater<Object, Object, String>{
 
                 LinearLayout ls = (LinearLayout) activity.findViewById(R.id.listLayout);
                 ls.setVisibility(View.VISIBLE);
+                s = ((jsonObject.getString("checked-in").contentEquals("true"))?"checked in":"checked out");
+                if(!jsonObject.optString("time-in", "").isEmpty()){
+                    TextView textViewTime = (TextView) activity.findViewById(R.id.statusTimeTV);
+                    textViewTime.setText(jsonObject.optString("time-in", ""));
+                }
 
                 textView.setText(s);
                 return s;
