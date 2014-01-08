@@ -21,10 +21,11 @@ import org.json.JSONObject;
 public class MainCheckinStatus extends Updater<Object, Object, String>{
     private String s = "Error";
     private MainActivity activity;
-    private TextView textView;
+    private TextView textView; TextView textViewUN;
     public MainCheckinStatus(MainActivity a){
         activity = a;
         textView = (TextView) activity.findViewById(R.id.statusTV);
+        textViewUN = (TextView) activity.findViewById(R.id.usernameTV);
 
         this.context = a.getApplicationContext();
         super.setCredentials();
@@ -59,7 +60,7 @@ public class MainCheckinStatus extends Updater<Object, Object, String>{
                     TextView textViewTime = (TextView) activity.findViewById(R.id.statusTimeTV);
                     textViewTime.setText(jsonObject.optString("time-in", "Error loading time."));
                 }
-
+                textViewUN.setText("Welcome, " + this.getU());
 
                 return s;
             }
