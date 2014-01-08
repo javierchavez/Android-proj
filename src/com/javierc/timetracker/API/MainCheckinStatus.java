@@ -53,15 +53,14 @@ public class MainCheckinStatus extends Updater<Object, Object, String>{
 
 
 
-                LinearLayout ls = (LinearLayout) activity.findViewById(R.id.listLayout);
-                ls.setVisibility(View.VISIBLE);
+
                 s = ((jsonObject.getString("checked-in").contentEquals("true"))?"checked in":"checked out");
                 if(!jsonObject.optString("time-in", "").isEmpty()){
                     TextView textViewTime = (TextView) activity.findViewById(R.id.statusTimeTV);
-                    textViewTime.setText(jsonObject.optString("time-in", ""));
+                    textViewTime.setText(jsonObject.optString("time-in", "Error loading time."));
                 }
 
-                textView.setText(s);
+
                 return s;
             }
 
@@ -80,9 +79,11 @@ public class MainCheckinStatus extends Updater<Object, Object, String>{
 
     @Override
     protected void onPostExecute(String s) {
+        super.onPostExecute(s);
         textView.setText(s);
         LinearLayout ll = (LinearLayout) activity.findViewById(R.id.load_ll);
         ll.setVisibility(View.GONE);
-        super.onPostExecute(s);
+        LinearLayout ls = (LinearLayout) activity.findViewById(R.id.listLayout);
+        ls.setVisibility(View.VISIBLE);
     }
 }
