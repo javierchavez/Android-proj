@@ -1,7 +1,6 @@
 package com.javierc.timetracker.API;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,16 +39,16 @@ public class MainCheckinStatus extends Updater<Object, Object, String>{
 
             HttpGet httpGet = new HttpGet(API.CHECKIN_STATUS_URL.string());
 
-            Log.d("req ", String.valueOf(httpGet.getRequestLine()));
+            // Log.d("req ", String.valueOf(httpGet.getRequestLine()));
             HttpResponse response = defaultHttpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
 
-            Log.d("status ", String.valueOf(response.getStatusLine()));
+            // Log.d("status ", String.valueOf(response.getStatusLine()));
             if (String.valueOf(response.getStatusLine()).contains(API.STATUS_OK.string())){
 
                 final JSONObject jsonObject = new JSONObject(EntityUtils.toString(entity));
                 defaultHttpClient.getConnectionManager().shutdown();
-                Log.d("ob ", jsonObject.toString());
+                // Log.d("ob ", jsonObject.toString());
                 s = jsonObject.toString();
 
 
@@ -71,7 +70,6 @@ public class MainCheckinStatus extends Updater<Object, Object, String>{
         }finally {
             defaultHttpClient.getConnectionManager().shutdown();
         }
-
         return s;
     }
 
