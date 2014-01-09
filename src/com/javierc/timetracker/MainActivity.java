@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -16,10 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.javierc.timetracker.API.API;
-import com.javierc.timetracker.API.MainCheckinStatus;
-import com.javierc.timetracker.API.UpdateCheckIn;
-import com.javierc.timetracker.API.Updater;
+import com.javierc.timetracker.API.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -199,15 +198,29 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
             pref = getSharedPreferences("lgen", Context.MODE_PRIVATE);
             String u = pref.getString("username", "");
             String p = pref.getString("password", "");
-            if (u.isEmpty() || p.isEmpty()){
-                isLoggedIn = false;
+            if ((!u.isEmpty() && !p.isEmpty()) && isNetworkAvailable()){
+
+                API s = API.STATUS_AUTH_FAIL;
+                try {
+                    s = new NewLoginTask(getBaseContext()).execute(u,p).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                if (API.STATUS_OK == s){ isLoggedIn = true; }
             } else{
-                isLoggedIn = true;
+                isLoggedIn = false;
             }
         }
         public boolean isLoggedIn() {
             return isLoggedIn;
         }
     }
-
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 }

@@ -1,6 +1,8 @@
 package com.javierc.timetracker.API;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -82,9 +84,10 @@ public class MainCheckinStatus extends Updater<Object, Object, String>{
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         textView.setText(s);
-        LinearLayout ll = (LinearLayout) activity.findViewById(R.id.load_ll);
-        ll.setVisibility(View.GONE);
+
         LinearLayout ls = (LinearLayout) activity.findViewById(R.id.listLayout);
         ls.setVisibility(View.VISIBLE);
+        LinearLayout ll = (LinearLayout) activity.findViewById(R.id.load_ll);
+        ll.setVisibility(View.GONE);
     }
 }
