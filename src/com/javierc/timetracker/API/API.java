@@ -1,5 +1,8 @@
 package com.javierc.timetracker.API;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by javierAle on 1/5/14.
  */
@@ -33,6 +36,17 @@ public enum API {
         @Override
         public String string() {
             return CHECKIN_URL.string() + "/status";
+        }
+    },
+    GET_SPEC_WEEK_URL(){
+        int week = 1;
+        public String string(int week) {
+            return CHECKIN_URL.string() + "/"+week;
+        }
+
+        @Override
+        public String string() {
+            return new SimpleDateFormat("w").format(new Date());
         }
     },
     STATUS_OK(200){
