@@ -46,7 +46,7 @@ public enum API {
 
         @Override
         public String string() {
-            return new SimpleDateFormat("w").format(new Date());
+            return CHECKIN_URL.string() + "/"+ new SimpleDateFormat("w").format(new Date());
         }
     },
     STATUS_OK(200){
