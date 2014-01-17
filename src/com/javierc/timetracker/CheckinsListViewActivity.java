@@ -2,12 +2,17 @@ package com.javierc.timetracker;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import com.androidquery.AQuery;
+import com.androidquery.auth.BasicHandle;
 import com.androidquery.callback.AjaxStatus;
 import com.javierc.timetracker.API.API;
 import org.json.JSONArray;
@@ -23,6 +28,8 @@ public class CheckinsListViewActivity extends Activity {
     protected AQuery listAq;
     protected AQuery aq;
     Button submitBtn;
+    private SharedPreferences pref;
+    private LinearLayout loadLL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,8 @@ public class CheckinsListViewActivity extends Activity {
         setContentView(R.layout.list_checkins);
         submitBtn = (Button) findViewById(R.id.submitbutton);
         submitBtn.setOnClickListener(submitListener());
+        loadLL = (LinearLayout)findViewById(R.id.selectorLL);
+
         aq = new AQuery(this);
 
 
@@ -39,14 +48,24 @@ public class CheckinsListViewActivity extends Activity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LinearLayout l = (LinearLayout)findViewById(R.id.listLayout);
+                l.setVisibility(View.VISIBLE);
+                loadLL.setVisibility(View.GONE);
+
                 loadCheckins();
             }
         };
     }
 
     private void loadCheckins() {
+
         String url = API.GET_SPEC_WEEK_URL.string();
-        aq.progress(R.id.progress_lv).ajax(url, JSONObject.class,this, "renderCheckins");
+        pref = getSharedPreferences("lgen", Context.MODE_PRIVATE);
+        String u = pref.getString("username", "");
+        String p = pref.getString("password", "");
+        BasicHandle handle = new BasicHandle(u, p);
+
+        aq.auth(handle).progress(R.id.progress_lv).ajax(url, JSONObject.class,this, "renderCheckins");
 
     }
 
@@ -55,7 +74,7 @@ public class CheckinsListViewActivity extends Activity {
 
         if(json == null) return;
         JSONObject jo = json.optJSONObject("responseData");
-        JSONArray ja = jo.optJSONArray("results");
+        JSONArray ja = jo.optJSONArray("check-ins");
 //		Log.i("pub", ja.toString());
 
         if(ja == null) return;
@@ -78,8 +97,10 @@ public class CheckinsListViewActivity extends Activity {
                 JSONObject jo = getItem(position);
 
                 AQuery aq = listAq.recycle(convertView);
-//                aq.id(R.id.name).text(jo.optString("title", "No Title"));
-//                aq.id(R.id.meta).text(jo.optString("publisher", ""));
+//                aq.id(R.id.name).text(jo.optString("", "No Title"));
+                aq.id(R.id.name).text("Check in");
+                aq.id(R.id.begd).text(jo.optString("in", ""));
+                aq.id(R.id.endd).text(jo.optString("out", ""));
 //                Log.i("pub", jo.optString("publisher", ""));
 
 //				String tb = jo.optString("profile_image_url");
@@ -102,7 +123,7 @@ public class CheckinsListViewActivity extends Activity {
     private void addItems(JSONArray ja, List<JSONObject> items){
         for(int i = 0 ; i < ja.length(); i++){
             JSONObject jo = ja.optJSONObject(i);
-            if(jo.has("content")){
+            if(jo.has("out")){
                 items.add(jo);
             }
         }

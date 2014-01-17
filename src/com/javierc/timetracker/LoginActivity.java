@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                tv.setText("Verifying...");
+                ((TextView) findViewById(R.id.respMsg)).setText("");
                 InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 
