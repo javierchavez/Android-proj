@@ -64,7 +64,6 @@ public class CheckinsListViewActivity extends Activity {
         pref = getSharedPreferences("lgen", Context.MODE_PRIVATE);
         String u = pref.getString("username", "");
         String p = pref.getString("password", "");
-        Log.d("uname", url);
         BasicHandle handle = new BasicHandle(u, p);
 
         aq.auth(handle).progress(R.id.progress_lv).ajax(url, JSONObject.class,this, "renderCheckins");
@@ -73,16 +72,12 @@ public class CheckinsListViewActivity extends Activity {
 
     public void renderCheckins(String url, JSONObject json, AjaxStatus status) {
 
-        Log.d("Before", "rendering");
 
         if(json == null) return;
-		Log.i("pub", json.toString());
 
         JSONArray ja = json.optJSONArray("check-ins");
-        Log.d("AFter", "CF");
 
         if(ja == null) return;
-        Log.d("AFter", "Still");
 
         List<JSONObject> items = new ArrayList<JSONObject>();
         addItems(ja, items);
